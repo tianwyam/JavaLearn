@@ -15,15 +15,17 @@ public class SubArray2 {
 	
 	public static void main(String[] args) {
 		
-		
+		// 数组
 		int[] list = {1,2,3,4,5,6} ;
 		
+		// 保存结果集 
 		List<List<Integer>> resultList = new ArrayList<>();
 		
 		// 全排列 循环
 		int size = list.length ;
 		for (int i = 0; i < size; i++) {
 			
+			// 保存单个
 			resultList.add(new ArrayList<>(Arrays.asList(list[i])));
 			
 			for (int j = i+1; j < size; j++) {
@@ -33,6 +35,8 @@ public class SubArray2 {
 				
 				for (int k = j; k < size; k++) {
 					subList.add(list[k]);
+					
+					// 保存重新一个数组
 					resultList.add(new ArrayList<>(subList));
 				}
 			}

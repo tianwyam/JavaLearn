@@ -15,19 +15,23 @@ public class SubArray {
 	
 	public static void main(String[] args) {
 		
-		
+		// 测试数组
 		int[] list = {1,2,3,4,5,6} ;
 		
+		// 保存结果集
 		List<List<Integer>> resultList = new ArrayList<>();
 		List<Integer> subList = new ArrayList<>();
+		
+		// 递归调用
 		subList(list, 0, resultList, subList);
 		
+		// 求数组的子集
 		System.out.println("数组的所有子集合：");
 		for (List<Integer> sub : resultList) {
 			System.out.println(Arrays.toString(sub.toArray()));
 		}
 		
-		
+		// 求各个子集中 和 为6的集合
 		System.out.println("输出和为：6");
 		for (List<Integer> sub : resultList) {
 			int sum = sub.stream().reduce(0, Integer::sum);
