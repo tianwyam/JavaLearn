@@ -48,7 +48,7 @@ public class Object2MapUtils {
 	}
 
 	/**
-	 * @description 对象转成Map (commons-beanutils 方式)
+	 * @description 对象转成Map (apache commons-beanutils 方式)
 	 * @author TianwYam
 	 * @date 2021年6月28日下午5:25:42
 	 * @param bean 实例对象
