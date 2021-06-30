@@ -21,48 +21,51 @@ public class CyclicBarrierDemo {
 	public static void main(String[] args) {
 		
 		// 屏障 模拟 3个玩家玩游戏
-		CyclicBarrier barrier = new CyclicBarrier(3);
+//		CyclicBarrier barrier = new CyclicBarrier(3);
+		CyclicBarrier barrier = new CyclicBarrier(3, ()->{
+			System.out.println("所有玩家已准备好，开始玩游戏");
+		});
 		
 		System.out.println("等所有玩家都准备好了，才能开始游戏：");
 		
-		new Thread(()->{
-			
-			System.out.println("玩家1 准备完毕");
-			try {
-				barrier.await();
-			} catch (InterruptedException | BrokenBarrierException e) {
-				e.printStackTrace();
-			}
-			System.out.println("玩家1进入游戏");
-			
-		}).start();
-		
-		new Thread(()->{
-			
-			System.out.println("玩家2 准备完毕");
-			try {
-				barrier.await();
-			} catch (InterruptedException | BrokenBarrierException e) {
-				e.printStackTrace();
-			}
-			System.out.println("玩家2进入游戏");
-			
-		}).start();
-		
-		new Thread(()->{
-			
-			System.out.println("玩家3 准备完毕");
-			try {
-				barrier.await();
-			} catch (InterruptedException | BrokenBarrierException e) {
-				e.printStackTrace();
-			}
-			System.out.println("玩家3进入游戏");
-			
-		}).start();
-		
-		
+		new PlayGameThread("玩家1", barrier).start();
+		new PlayGameThread("玩家2", barrier).start();
+		new PlayGameThread("玩家3", barrier).start();
 		
 	}
+	
+	
+
+	/**
+	 * @description
+	 *	模拟玩游戏的 线程
+	 * @author TianwYam
+	 * @date 2021年6月30日下午5:30:38
+	 */
+	public static class PlayGameThread extends Thread {
+		
+		private String name;
+		private CyclicBarrier barrier ;
+		
+		private PlayGameThread(String name, CyclicBarrier barrier) {
+			super(name);
+			this.name = name ;
+			this.barrier = barrier ;
+		}
+		
+		@Override
+		public void run() {
+			
+			System.out.println(name + ": 准备完毕");
+			try {
+				barrier.await();
+			} catch (InterruptedException | BrokenBarrierException e) {
+				e.printStackTrace();
+			}
+			System.out.println(name + ": 进入游戏");
+			
+		}
+	}
+	
 
 }

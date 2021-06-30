@@ -24,21 +24,8 @@ public class CountDownLatchDemo {
 		// 计数器
 		CountDownLatch latch = new CountDownLatch(2);
 		
-		new Thread(()->{
-			
-			System.out.println("学生1 签完到了");
-			latch.countDown();
-			System.out.println("签完到 学生1 走了");
-			
-		}).start();
-		
-		new Thread(()->{
-			
-			System.out.println("学生2 签完到了");
-			latch.countDown();
-			System.out.println("签完到 学生2 走了");
-			
-		}).start();
+		new SignInThread("学生1", latch).start();
+		new SignInThread("学生2", latch).start();
 		
 		
 		try {
@@ -50,5 +37,35 @@ public class CountDownLatchDemo {
 		}
 		
 	}
+	
+	
+	/**
+	 * @description
+	 *	模拟 学生 签到 线程
+	 * @author TianwYam
+	 * @date 2021年6月30日下午5:30:59
+	 */
+	public static class SignInThread extends Thread {
+		
+		private String name;
+		private CountDownLatch latch ;
+		
+		private SignInThread(String name, CountDownLatch latch) {
+			super(name);
+			this.name = name ;
+			this.latch = latch ;
+		}
+		
+		@Override
+		public void run() {
+			
+			System.out.println(name + ": 签完到了");
+			latch.countDown();
+			System.out.println(name + ": 走了");
+			
+		}
+	}
+	
+	
 
 }
