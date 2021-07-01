@@ -11,7 +11,6 @@ import java.util.concurrent.CountDownLatch;
 public class CountDownLatchDemo {
 	
 	/*
-	 * 
 	 * 同步工具类：CountDownLatch 计数器
 	 * 内部有个计数器，只有等计数器为0时， latch.await() 才能继续往下走
 	 * latch.countDown() 就是每一次 计数 减一 

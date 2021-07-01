@@ -59,7 +59,8 @@ public class SemaphoreDemo {
 					System.out.println(name + "：吃饭 ");
 					
 					try {
-						Thread.sleep(2);
+						// 吃饭
+						Thread.sleep(3);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -69,6 +70,12 @@ public class SemaphoreDemo {
 					break ;
 				} else {
 					System.out.println(name + "：没有抢到饭卡，需要等待 或者 下次再来 ");
+					try {
+						// 等饭卡
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			
