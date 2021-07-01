@@ -22,6 +22,9 @@ public class CyclicBarrierDemo {
 		
 		// 屏障 模拟 3个玩家玩游戏
 //		CyclicBarrier barrier = new CyclicBarrier(3);
+		
+		// CyclicBarrier(int parties, Runnable barrierAction)
+		// 当所有的线程都达到屏障后，优先执行 barrierAction
 		CyclicBarrier barrier = new CyclicBarrier(3, ()->{
 			System.out.println("所有玩家已准备好，开始玩游戏");
 		});
