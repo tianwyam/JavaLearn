@@ -3,13 +3,16 @@ package com.tianya.java;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.tianya.java.entity.ClassRoom;
 import com.tianya.java.entity.Student;
 
 /**
@@ -145,6 +148,19 @@ public class Java8Lambda {
 		return students;
 	}
 	
+	
+	
+	public void flatMapTest(List<ClassRoom> classRoomList) {
+		
+		List<Student> studentList = classRoomList.stream()
+				.map(ClassRoom::getStudents)
+				.filter(CollectionUtils::isNotEmpty)
+				.flatMap(List::stream)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
+		
+		studentList.forEach(System.out::println);
+	}
 	
 	
 

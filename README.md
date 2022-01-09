@@ -82,7 +82,7 @@ Date date = new Date(milli);
 
 
 
-## lambda
+## lambda & Stream
 
 
 
@@ -92,17 +92,7 @@ com.tianya.java.Java8Lambda.java
 
 
 
-## Optional & Stream
-
-
-
-com.tianya.java.Java8Optional.java
-
-
-
-
-
-### 过滤filter
+### 过滤 filter
 
 
 
@@ -110,72 +100,72 @@ com.tianya.java.Java8Optional.java
 
 过滤
 
-~~~java
+```java
 // 查询大于 25岁的 学生
 System.out.println("查询大于 25岁的 学生：");
 List<Student> collect = students.stream()
     .filter(student -> student.getAge() > 25)
     .collect(Collectors.toList());
-~~~
+```
 
 
 
 
 
-### 排序sorted
+### 排序 sorted
 
 
 
 排序
 
-~~~java
+```java
 System.out.println("按照年龄排序(从小到大)：");
 List<Student> sortList = students.stream()
     .sorted( (a,b)-> a.getAge() - b.getAge())
     .collect(Collectors.toList());
-~~~
+```
 
 
 
-### 最大max
+### 最大 max
 
 
 
 最大值
 
-~~~java
+```java
 // 获取最高的学生
 System.out.println("获取最高的学生：");
 Student maxHeightStudent = students.stream()
     .max((a,b)->a.getHeight() - b.getHeight())
     .get();
 System.out.println(maxHeightStudent);
-~~~
+```
 
 
 
 
 
-### 合并reduce
+### 合并 reduce
 
-~~~java
+```java
 // 获取所有学生的年龄和
 Integer ageSum = students.stream()
     .reduce(0, 
             (a,b)-> a + b.getAge(), 
             (a,b)-> a + b);
 System.out.println("所有学生的年龄总和：" + ageSum);
-~~~
+```
 
 
 
-~~~java
+```java
 // 还可以：
 Integer allStudentAge = students.stream()
     .map(Student::getAge)
     .reduce(0, Integer::sum);
 System.out.println("获取所有人年龄之和：" + allStudentAge);
-~~~
+```
 
 
 
@@ -183,7 +173,7 @@ System.out.println("获取所有人年龄之和：" + allStudentAge);
 
 ### 转MAP
 
-~~~java
+```java
 // 转换成MAP
 Map<Integer, String> mapList = students.stream()
     .collect(
@@ -191,45 +181,64 @@ Map<Integer, String> mapList = students.stream()
                      Student::getName));
 mapList.forEach((k,v)->System.out.println(k + ": " + v));
 
-~~~
+```
 
 
 
-~~~java
+```java
 System.out.println("同一个地方的人：");
 Map<String, List<Student>> addrMap = students.stream()
     .collect(Collectors.groupingBy(Student::getAddr));
 System.out.println(JSON.toJSONString(addrMap, SerializerFeature.PrettyFormat));
-~~~
+```
 
 
 
 
 
-### 分组
+### 分组 groupingBy
 
-~~~java
+```java
 // 根据 地方分组，求出 每个 地方最高的 身高
 Map<String, Optional<Integer>> groupByList = students.stream()
     .collect(Collectors.groupingBy(Student::getAddr, 
-                                   Collectors.mapping(Student::getHeight, 
-                                                      Collectors.maxBy((a,b)->a-b))));
+    	Collectors.mapping(Student::getHeight, 
+        	Collectors.maxBy((a,b)->a-b))));
 
 groupByList.forEach((k,v)->System.out.println(k + " : " + v.get()));
-~~~
+```
 
 
 
-~~~java
+```java
 // 先分组，然后 求身高最大的 学生
 System.out.println("求各个地方最高的人：");
 Map<String, Optional<Student>> groupMaxHeightStudentMap = students.stream()
     .collect(Collectors.groupingBy(Student::getAddr, 
-                                   Collectors.mapping(a->a, 
-                                                      Collectors.maxBy((a,b)->a.getHeight() - b.getHeight()))));
-
+		Collectors.mapping(a->a, 
+        	Collectors.maxBy((a,b)->a.getHeight() - b.getHeight()))));
 
 groupMaxHeightStudentMap.forEach((k,v)->System.out.println(k + " : " + v.get()));
+```
+
+
+
+
+
+
+
+### flatMap
+
+~~~java
+// 获取全部学生 （求list下的所有list）
+List<Student> studentList = classRoomList.stream()
+    .map(ClassRoom::getStudents)
+    .filter(CollectionUtils::isNotEmpty)
+    .flatMap(List::stream)
+    .filter(Objects::nonNull)
+    .collect(Collectors.toList());
+
+studentList.forEach(System.out::println);
 ~~~
 
 
@@ -239,6 +248,14 @@ groupMaxHeightStudentMap.forEach((k,v)->System.out.println(k + " : " + v.get()))
 
 
 
+
+
+
+## Optional
+
+
+
+com.tianya.java.Java8Optional.java
 
 
 
