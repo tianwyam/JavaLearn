@@ -279,5 +279,40 @@ com.tianya.java.JavaSerializable.java
 
 
 
+序列化
+
+~~~java
+public static byte[] serialize(Object object) {
+		
+    try ( ByteArrayOutputStream out = new ByteArrayOutputStream();
+         ObjectOutputStream writer = new ObjectOutputStream(out) ; ){
+        writer.writeObject(object);
+        return out.toByteArray();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return new byte[0] ;
+}
+~~~
+
+
+
+反序列化
+
+~~~java
+public static Object unserialize(byte[] obj) {
+		
+    try ( ByteArrayInputStream input = new ByteArrayInputStream(obj);
+         ObjectInputStream reader = new ObjectInputStream(input); ){
+        return reader.readObject();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return null ;
+}
+~~~
+
 
 
